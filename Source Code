@@ -1,0 +1,106 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ChatBot
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+private void Form1_Load(object sender, EventArgs e) 
+        {
+            //string temp = greetings[random.Next(0, greetings.Count - 1)]; //first greeting from AI
+            //listBox1.Items.Add(temp);
+            listBox1.Items.Add("What do you want to talk about?");
+        }
+        string question;
+        List<string> tags = new List<string>(new string[] { "_Jig\">", "_sPg\">","<li style=\"list-style-type:decimal\">", "</div><ol><li>", "<table class=\"ts\" style=\"margin:0 0 2px\">", "<span class=\"st\">" });
+        List<string> ban = new List<string>(new string[] { "&quot;", "maps.google.com", "&#39;", "...", "&#8220;", "&#8221;", "�", "&nbsp;", "&amp;", "&#8212;", "&middot;" });
+        public void checkTag()
+        {
+
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                listBox1.Items.Add(textBox1.Text);
+                question = textBox1.Text;
+                string results = HTTPS.HttpGet("https://www.google.com/search?q=" + question);
+                
+
+                string myTag = string.Empty;
+                foreach (string tag in tags)
+                {
+                    myTag = tag;
+                    if (results.IndexOf(myTag) > 1) { break; }
+
+                }
+
+
+
+                if (results.IndexOf(myTag) < 1) { listBox1.Items.Add("What do you mean?"); return; }
+                results = results.Substring(results.IndexOf(myTag) + myTag.Length);
+                results = results.Substring(0, results.IndexOf("<div"));
+                string results2 = string.Empty;
+                bool copy = true;
+                for (int i = 0; i <= results.Length - 1; i++)
+                {
+
+                    if (results[i] == '<') copy = false;
+                    if (copy == true)
+                    {
+                        results2 = results2 + results[i];
+                    }
+                    if (results[i] == '>') copy = true;
+                }
+                foreach (string banned in ban)
+                {
+                    results2 = results2.Replace(banned, "");
+                }
+                //textBox2.Text = results2;
+
+                if (results2.Contains("Uploaded by"))
+                {
+                    results2 = results2.Substring(results2.IndexOf("Uploaded by") + 11);
+                }
+                string temp = results2.Substring(0, 11);
+                if (temp.Contains(", 20"))
+                {
+                    results2 = results2.Substring(13);
+                }
+                if (results2.Contains("?"))
+                {
+                    results2 = results2.Substring(0 ,results2.IndexOf("?"));
+                }
+                if (results2.Contains("."))
+                {
+                    listBox1.Items.Add(results2.Substring(0, results2.IndexOf(".")));
+                }
+                 
+                else
+                {
+                    listBox1.Items.Add(results2);
+                }
+                textBox1.Clear();
+                //_Tgc
+            }
+            catch
+            {
+                listBox1.Items.Add("What do you mean?");
+                textBox1.Clear();
+            }
+        }
+    }
+}
