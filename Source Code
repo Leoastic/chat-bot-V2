@@ -20,17 +20,34 @@ namespace ChatBot
 
 private void Form1_Load(object sender, EventArgs e) 
         {
-            //string temp = greetings[random.Next(0, greetings.Count - 1)]; //first greeting from AI
-            //listBox1.Items.Add(temp);
+            CheckForUpdates();
             listBox1.Items.Add("What do you want to talk about?");
         }
+        
+        int updateIdentifier = 3; //modify with every new version
+        int programBuildNumber = int.Parse(System.IO.File.ReadAllText(@"C:\Users\Leo\Documents\Visual Studio 2013\Projects\ChatBot\ChatBot\bin\Debug\WordLists\Buildnumber.txt"));
+        int updateNumber = int.Parse(HTTPS.HttpGet("https://raw.githubusercontent.com/Leoastic/chat-bot-V2/master/buildnumber"));
+
+        public void CheckForUpdates()
+        {
+            if (programBuildNumber < updateNumber)
+            {
+                MessageBox.Show("A new update is available! Go to https://github.com/Leoastic/chat-bot-V2/releases to download the new update");
+            }
+        }
+
+        public void CurrentVersion()
+        {
+            if (updateIdentifier == programBuildNumber)
+            {
+                File.WriteAllText(@"C:\Users\Leo\Documents\Visual Studio 2013\Projects\ChatBot\ChatBot\bin\Debug\WordLists\Buildnumber.txt", updateIdentifier.ToString());
+            }
+        }
+        
         string question;
         List<string> tags = new List<string>(new string[] { "_Jig\">", "_sPg\">","<li style=\"list-style-type:decimal\">", "</div><ol><li>", "<table class=\"ts\" style=\"margin:0 0 2px\">", "<span class=\"st\">" });
         List<string> ban = new List<string>(new string[] { "&quot;", "maps.google.com", "&#39;", "...", "&#8220;", "&#8221;", "�", "&nbsp;", "&amp;", "&#8212;", "&middot;" });
-        public void checkTag()
-        {
 
-        }
         private void button2_Click(object sender, EventArgs e)
         {
             try
