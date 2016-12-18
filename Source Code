@@ -17,6 +17,15 @@ namespace ChatBot
         {
             InitializeComponent();
         }
+        int programBuildNumber = int.Parse(System.IO.File.readAllText(@"filepathhere\buildnumber.txt")); //Gets build number from buildnumber.txt
+        /* READ STUFF HERE
+        TODO:
+        - int currentBuildNumber = Goto https://raw.githubusercontent.com/Leoastic/chat-bot-V2/master/buildnumber and read the .txt and convert to int
+        */
+        if(currentBuildNumber>programBuildNumber)
+        {
+            System.Windows.Forms.MessageBox.Show("A new update is available! Go to https://github.com/Leoastic/chat-bot-V2/releases to download the new update");
+        
 
 private void Form1_Load(object sender, EventArgs e) 
         {
