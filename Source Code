@@ -31,7 +31,7 @@ private void Form1_Load(object sender, EventArgs e)
 
         public void CheckForUpdates()
         {
-            if (programBuildNumber < updateNumber)
+            if (updateNumber < updateNumber)
             {
                 MessageBox.Show("A new update is available! Go to https://github.com/Leoastic/chat-bot-V2/releases to download the new update");
             }
