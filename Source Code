@@ -32,6 +32,40 @@ namespace ChatBot
             CheckForUpdates();
         }
 
+        int updateIdentifier = 7; //modify with everusing System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ChatBot
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        Random random = new Random(); //random generator
+        //reads word lists
+        List<string> greetings = System.IO.File.ReadAllLines(@"WordLists\Greetings.txt").ToList<string>();
+        List<string> goodbyes = System.IO.File.ReadAllLines(@"WordLists\Goodbyes.txt").ToList<string>();
+        List<string> questions = System.IO.File.ReadAllLines(@"WordLists\Questions.txt").ToList<string>();
+        List<string> answers = System.IO.File.ReadAllLines(@"WordLists\Answers.txt").ToList<string>();
+        List<string> useranswers = System.IO.File.ReadAllLines(@"WordLists\UserAnswers.txt").ToList<string>();
+        List<string> banlist = new List<string>();
+        
+
+        private void Form1_Load(object sender, EventArgs e) 
+        {
+            CheckForUpdates();
+        }
+
         int updateIdentifier = 7; //modify with every new version
         int updateNumber = int.Parse(HTTPS.HttpGet("https://raw.githubusercontent.com/Leoastic/chat-bot-V2/master/AppBuildNumber.txt"));
 
@@ -118,7 +152,6 @@ namespace ChatBot
 
             try
             {
-                listBox1.Items.Add(textBox1.Text);
                 question = textBox1.Text;
                 string results = HTTPS.HttpGet("https://www.google.com/search?q=" + question);
 
@@ -183,4 +216,5 @@ namespace ChatBot
         }
     }
 }
+
 
