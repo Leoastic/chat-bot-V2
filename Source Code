@@ -20,12 +20,11 @@ namespace ChatBot
 
 private void Form1_Load(object sender, EventArgs e) 
         {
-            CurrentVersion();
             CheckForUpdates();
             listBox1.Items.Add("What do you want to talk about?");
         }
         
-        int updateIdentifier = 4; //modify with every new version
+        int updateIdentifier = 5; //modify with every new version
         int updateNumber = int.Parse(HTTPS.HttpGet("https://raw.githubusercontent.com/Leoastic/chat-bot-V2/master/AppBuildNumber.txt"));
         
 
@@ -34,14 +33,6 @@ private void Form1_Load(object sender, EventArgs e)
             if (updateNumber < updateNumber)
             {
                 MessageBox.Show("A new update is available! Go to https://github.com/Leoastic/chat-bot-V2/releases to download the new update");
-            }
-        }
-
-        public void CurrentVersion()
-        {
-            if (updateIdentifier == programBuildNumber)
-            {
-                File.WriteAllText(@"C:\Users\Leo\Documents\Visual Studio 2013\Projects\ChatBot\ChatBot\bin\Debug\WordLists\Buildnumber.txt", updateIdentifier.ToString());
             }
         }
         
