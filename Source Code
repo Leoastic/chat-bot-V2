@@ -32,14 +32,14 @@ namespace ChatBot
             CheckForUpdates();
         }
 
-        int updateIdentifier = 5; //modify with every new version
+        int updateIdentifier = 7; //modify with every new version
         int updateNumber = int.Parse(HTTPS.HttpGet("https://raw.githubusercontent.com/Leoastic/chat-bot-V2/master/AppBuildNumber.txt"));
 
         public void CheckForUpdates()
         {
             if (updateIdentifier < updateNumber)
             {
-                MessageBox.Show("A new update is available! Go to https://github.com/Leoastic/chat-bot-V2/releases to download the new update");
+                MessageBox.Show("A new update is available! Go to https://github.com/LPS-CoderNerds/AIBot-Exes/releases to download the new update");
             }
         }
 
