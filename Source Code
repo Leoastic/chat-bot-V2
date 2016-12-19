@@ -25,8 +25,7 @@ private void Form1_Load(object sender, EventArgs e)
             listBox1.Items.Add("What do you want to talk about?");
         }
         
-        int updateIdentifier = 3; //modify with every new version
-        int programBuildNumber = int.Parse(System.IO.File.ReadAllText(@"C:\Users\Leo\Documents\Visual Studio 2013\Projects\ChatBot\ChatBot\bin\Debug\WordLists\Buildnumber.txt"));
+        int updateIdentifier = 4; //modify with every new version
         int updateNumber = int.Parse(HTTPS.HttpGet("https://raw.githubusercontent.com/Leoastic/chat-bot-V2/master/AppBuildNumber.txt"));
         
 
