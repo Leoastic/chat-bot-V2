@@ -17,37 +17,115 @@ namespace ChatBot
         {
             InitializeComponent();
         }
+        Random random = new Random(); //random generator
+        //reads word lists
+        List<string> greetings = System.IO.File.ReadAllLines(@"WordLists\Greetings.txt").ToList<string>();
+        List<string> goodbyes = System.IO.File.ReadAllLines(@"WordLists\Goodbyes.txt").ToList<string>();
+        List<string> questions = System.IO.File.ReadAllLines(@"WordLists\Questions.txt").ToList<string>();
+        List<string> answers = System.IO.File.ReadAllLines(@"WordLists\Answers.txt").ToList<string>();
+        List<string> useranswers = System.IO.File.ReadAllLines(@"WordLists\UserAnswers.txt").ToList<string>();
+        List<string> banlist = new List<string>();
+        
 
-private void Form1_Load(object sender, EventArgs e) 
+        private void Form1_Load(object sender, EventArgs e) 
         {
             CheckForUpdates();
-            listBox1.Items.Add("What do you want to talk about?");
+            listBox1.Items.Add("Hello");
         }
-        
-        int updateIdentifier = 5; //modify with every new version
+
+        int updateIdentifier = 7; //modify with every new version
         int updateNumber = int.Parse(HTTPS.HttpGet("https://raw.githubusercontent.com/Leoastic/chat-bot-V2/master/AppBuildNumber.txt"));
-        
 
         public void CheckForUpdates()
         {
-            if (updateNumber < updateNumber)
+            if (updateIdentifier < updateNumber)
             {
-                MessageBox.Show("A new update is available! Go to https://github.com/Leoastic/chat-bot-V2/releases to download the new update");
+                MessageBox.Show("A new update is available! Go to https://github.com/LPS-CoderNerds/AIBot-Exes/releases to download the new update");
             }
         }
-        
+
         string question;
         List<string> tags = new List<string>(new string[] { "_Jig\">", "_sPg\">","<li style=\"list-style-type:decimal\">", "</div><ol><li>", "<table class=\"ts\" style=\"margin:0 0 2px\">", "<span class=\"st\">" });
         List<string> ban = new List<string>(new string[] { "&quot;", "maps.google.com", "&#39;", "...", "&#8220;", "&#8221;", "�", "&nbsp;", "&amp;", "&#8212;", "&middot;" });
 
         private void button2_Click(object sender, EventArgs e)
         {
+
+            listBox1.Items.Add(textBox1.Text); //send button
+
+            if (greetings.Contains(textBox1.Text) || goodbyes.Contains(textBox1.Text) || questions.Contains(textBox1.Text) || answers.Contains(textBox1.Text) || useranswers.Contains(textBox1.Text)){
+
+              
+                if (greetings.Contains(textBox1.Text))//AI logic to answer greeting
+                {
+                    string temp1 = questions[random.Next(0, greetings.Count - 1)];
+                    if (banlist.Contains(temp1))
+                    {
+                        temp1 = questions[random.Next(0, greetings.Count - 1)];
+                    }
+                    else
+                    {
+                        listBox1.Items.Add(temp1);
+                        banlist.Add(temp1);
+                    }
+                }
+                if (goodbyes.Contains(textBox1.Text)) //AI logic to answer goodbye
+                {
+                    string temp2 = goodbyes[random.Next(0, greetings.Count - 1)];
+                    if (banlist.Contains(temp2))
+                    {
+                        temp2 = goodbyes[random.Next(0, greetings.Count - 1)];
+                    }
+                    else
+                    {
+                        listBox1.Items.Add(temp2);
+                        banlist.Add(temp2);
+                    }
+                }
+                if (textBox1.Text.Contains("?")) //AI logic to answer question
+                {
+                    if (textBox1.Text.Contains("song"))
+                    {
+                        listBox1.Items.Add("Darude-Sandstorm");
+                    }
+                    if (textBox1.Text.Contains("game"))
+                    {
+                        listBox1.Items.Add("MarioKart");
+                    }
+                }
+                if (useranswers.Contains(textBox1.Text)) //AI logic to respond to user response
+                {
+                    string temp3 = questions[random.Next(0, greetings.Count - 1)];
+                    listBox1.Items.Add(answers[random.Next(0, greetings.Count - 1)]);
+                    if (banlist.Contains(temp3))
+                    {
+                        temp3 = questions[random.Next(0, greetings.Count - 1)];
+                    }
+                    else
+                    {
+                        listBox1.Items.Add(temp3);
+                        banlist.Add(temp3);
+                    }
+                }
+            
+            }
+            else
+            {
+                Search();
+            }
+
+
+            textBox1.Clear();
+            
+
+        }
+        public void Search()
+        {
+
             try
             {
-                listBox1.Items.Add(textBox1.Text);
                 question = textBox1.Text;
                 string results = HTTPS.HttpGet("https://www.google.com/search?q=" + question);
-                
 
                 string myTag = string.Empty;
                 foreach (string tag in tags)
@@ -91,13 +169,9 @@ private void Form1_Load(object sender, EventArgs e)
                 }
                 if (results2.Contains("?"))
                 {
-                    results2 = results2.Substring(0 ,results2.IndexOf("?"));
+                    results2 = results2.Substring(0, results2.IndexOf("?"));
                 }
-                if (results2.Contains("."))
-                {
-                    listBox1.Items.Add(results2.Substring(0, results2.IndexOf(".")));
-                }
-                 
+
                 else
                 {
                     listBox1.Items.Add(results2);
@@ -110,6 +184,9 @@ private void Form1_Load(object sender, EventArgs e)
                 listBox1.Items.Add("What do you mean?");
                 textBox1.Clear();
             }
+
         }
     }
 }
+
+
